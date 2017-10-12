@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button, Text, View} from 'react-native';
 import CostCalculator from '../classes/costCalculator';
+import Nf from '../classes/numberFormatter';
 
 class Market extends React.Component{
   cost(itemName){
@@ -13,7 +14,7 @@ class Market extends React.Component{
     let buyButtons = [];
     for (let key in items){
       let item = items[key];
-      let buttonTitle = `Buy ${item.displayName} ($${this.cost(item.name)})`;      
+      let buttonTitle = `Buy ${item.displayName} ($${Nf.formatNumber(this.cost(item.name))})`;      
       buyButtons.push(
         <Button key={key}
           onPress={() => this.props.buy(this.cost(item.name), item.name)}
