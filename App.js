@@ -1,3 +1,4 @@
+//libraries
 import React from 'react';
 import Timer from 'react-timer-mixin';
 import {
@@ -5,15 +6,18 @@ import {
   View,
   StatusBar,
   ScrollView,
-  Button
+  Button,
+  FlatList,
 } from 'react-native';
 import {observer} from 'mobx-react';
-
+//components
+import Market from './components/market';
+import TabBar from './components/tabBar';
+import Achievements from './components/achievements';
+//other stuff
 import Styles from './styles/styles';
 import Store from './data/dataStore';
 import CostCalculator from './classes/costCalculator';
-import Market from './components/market';
-import TabBar from './components/tabBar';
 
 @observer
 class App extends React.Component{
@@ -60,7 +64,7 @@ class App extends React.Component{
       view = <Market items={Store.buildings} count={Store.count} buy={this.buy}/>      
     }
     else if (this.state.view === 'ACHIEVEMENTS'){
-      view = <Text style={{color:'white'}}>ACHIEVEMENTS</Text>
+      view = <Achievements achievements={Store.achievements}/>
     }
 
     return(
