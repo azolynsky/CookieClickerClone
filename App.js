@@ -4,7 +4,8 @@ import {
   Text,
   View,
   StatusBar,
-  ScrollView
+  ScrollView,
+  Button
 } from 'react-native';
 import {observer} from 'mobx-react';
 
@@ -18,6 +19,9 @@ class App extends React.Component{
   constructor(props){
     super(props);
     this.timerInterval = 50;
+    this.state = {
+      view: 'MARKET',
+    }
   }
 
   componentDidMount(){
@@ -41,6 +45,14 @@ class App extends React.Component{
     Store.addCount(amount)
   }
 
+  changeView(viewName){
+    this.setState(() => {
+      return { 
+        view: viewName 
+      }
+    })
+  }
+
   render(){
     let itemCounts = [];
     for(let key in Store.buildings){
@@ -50,17 +62,27 @@ class App extends React.Component{
       )
     }
 
-    return(   
-      <View style={{backgroundColor: 'black', flex: 1}}>
+    let view = {}
+    if (this.state.view === 'MARKET'){
+      view = <Market items={Store.buildings} count={Store.count} buy={this.buy}/>      
+    }
+    else if (this.state.view === 'ACHIEVEMENTS'){
+      view = <Text style={{color:'white'}}>ACHIEVEMENTS</Text>
+    }
+
+    return(
+      <View style={{backgroundColor: 'black', flex: 10}}>
         <StatusBar
           barStyle="light-content"
         />
         <Text style={Styles.countDisplay} onPress={() => this.click()}>${Math.floor(Store.count)}</Text> 
         <ScrollView style={{paddingTop: 20}}> 
-          <Market items={Store.buildings} count={Store.count} buy={this.buy}/>
+          {view}
           {itemCounts}
           <Text style={{color: 'pink'}}>$ per second: {Store.countPerSecond.toFixed(1)}</Text>
         </ScrollView>
+        <Button title="MARKET" onPress={() => this.changeView('MARKET')} />
+        <Button title="ACHIEVEMENTS" onPress={() => this.changeView('ACHIEVEMENTS')} />
       </View>
     );
   }

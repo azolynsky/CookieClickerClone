@@ -1,13 +1,38 @@
 import {observable, action, computed} from 'mobx';
+import {Alert} from 'react-native';
 
 class dataStore {
-  @observable count = 0;
+  @observable count = 25;
 
   addCount(amount){
     this.count += amount
   }
 
   buy(itemKey) {
+    if (itemKey == 'clicker' && this.achievements.oneClicker.earned === false){
+      let achievement = this.achievements.oneClicker;
+      Alert.alert(
+        `Achievement Unlocked \n ${achievement.displayName}`,
+        achievement.description,
+        [
+          {text: 'Sweet!'},
+        ]
+      )
+      this.achievements.oneClicker.earned = true;
+    }
+
+    if (itemKey == 'clicker' && this.buildings.clicker.owned == 9){
+      let achievement = this.achievements.tenClickers;
+      Alert.alert(
+        `Achievement Unlocked \n ${achievement.displayName}`,
+        achievement.description,
+        [
+          {text: 'Sweet!'},
+        ]
+      )
+      this.achievements.tenClickers.earned = true;
+    }
+
     this.buildings[itemKey].owned ++;
   }
 
@@ -56,8 +81,13 @@ class dataStore {
     oneClicker: {
       name: 'oneClicker',
       displayName: 'One Clicker',
-      countPerSecond: 1,
-      description: 'Bought a clicker',
+      description: 'Bought a Clicker',
+      earned: false
+    },
+    tenClickers: {
+      name: 'tenClickers',
+      displayName: 'Deca-Clicker',
+      description: 'Bought 10 Clickers',
       earned: false
     },
   }
