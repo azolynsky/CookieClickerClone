@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import {observer} from 'mobx-react';
 //components
+import Header from './components/header';
 import Market from './components/market';
 import TabBar from './components/tabBar';
 import Achievements from './components/achievements';
@@ -72,10 +73,8 @@ class App extends React.Component{
         <StatusBar
           barStyle="light-content"
         />
-        <Text style={Styles.countDisplay} onPress={() => this.click()}>${Math.floor(Store.count)}</Text> 
-        {/* <Text style={{color: 'pink'}}>$ per second: {Store.countPerSecond.toFixed(1)}</Text> */}
+        <Header onPress={this.click.bind(this)} val={Math.floor(Store.count)} pageName={this.state.view} countPerSecond={Store.countPerSecond.toFixed(1)}/>
         <ScrollView style={{paddingTop: 20}}>
-          <Text style={{fontSize:30, color:'white', fontWeight:'bold'}}>{this.state.view}</Text>
           {view}
         </ScrollView>
         <TabBar changeView={this.changeView.bind(this)} />

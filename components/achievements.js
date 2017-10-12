@@ -14,8 +14,8 @@ class Achievements extends React.Component{
     
     for (let key in achievements){
       let achievement = achievements[key];
-      let value = 'O'
-      if (achievement.earned) value = 'X'
+      let value = '??????'
+      if (achievement.earned) value = `${achievement.displayName}: ${achievement.description}`
 
       returnView.push(
         <Text style={{color:'white'}} key={key}>{value}</Text>
