@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button} from 'react-native';
+import {Button, Text, View} from 'react-native';
 import CostCalculator from '../classes/costCalculator';
 
 class Market extends React.Component{
@@ -23,7 +23,21 @@ class Market extends React.Component{
         />
       )
     }
-    return buyButtons
+
+    let itemCounts = [];
+    for(let key in items){
+      let item = items[key];
+      itemCounts.push(
+          <Text key={key} style={{color: 'white'}}>{item.pluralDisplayName} Owned: {item.owned}</Text>                
+      )
+    }
+
+    return (
+      <View>
+        {buyButtons}
+        {itemCounts}
+      </View>
+    )
   }
 }
 

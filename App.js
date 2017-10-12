@@ -13,6 +13,7 @@ import Styles from './styles/styles';
 import Store from './data/dataStore';
 import CostCalculator from './classes/costCalculator';
 import Market from './components/market';
+import TabBar from './components/tabBar';
 
 @observer
 class App extends React.Component{
@@ -54,14 +55,6 @@ class App extends React.Component{
   }
 
   render(){
-    let itemCounts = [];
-    for(let key in Store.buildings){
-      let item = Store.buildings[key];
-      itemCounts.push(
-          <Text key={key} style={{color: 'white'}}>{item.pluralDisplayName} Owned: {Store.buildings[item.name].owned}</Text>                
-      )
-    }
-
     let view = {}
     if (this.state.view === 'MARKET'){
       view = <Market items={Store.buildings} count={Store.count} buy={this.buy}/>      
@@ -76,13 +69,12 @@ class App extends React.Component{
           barStyle="light-content"
         />
         <Text style={Styles.countDisplay} onPress={() => this.click()}>${Math.floor(Store.count)}</Text> 
-        <ScrollView style={{paddingTop: 20}}> 
+        {/* <Text style={{color: 'pink'}}>$ per second: {Store.countPerSecond.toFixed(1)}</Text> */}
+        <ScrollView style={{paddingTop: 20}}>
+          <Text style={{fontSize:30, color:'white', fontWeight:'bold'}}>{this.state.view}</Text>
           {view}
-          {itemCounts}
-          <Text style={{color: 'pink'}}>$ per second: {Store.countPerSecond.toFixed(1)}</Text>
         </ScrollView>
-        <Button title="MARKET" onPress={() => this.changeView('MARKET')} />
-        <Button title="ACHIEVEMENTS" onPress={() => this.changeView('ACHIEVEMENTS')} />
+        <TabBar changeView={this.changeView.bind(this)} />
       </View>
     );
   }
