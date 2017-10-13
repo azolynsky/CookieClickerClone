@@ -145,6 +145,24 @@ class dataStore {
         return (itemKey == 'clicker' && this.buildings.clicker.owned == 9)
       }      
     },
+    oneFarm: {
+      name: 'oneFarm',
+      displayName: 'Come to Farm',
+      description: 'Bought a Farm',
+      earned: false,
+      condition: (itemKey) => {
+        return (itemKey == 'farm')
+      }      
+    },
+    tenFarms: {
+      name: 'tenFarms',
+      displayName: 'After Me Lucky Farms',
+      description: 'Bought 10 Farms',
+      earned: false,
+      condition: (itemKey) => {
+        return (itemKey == 'farm' && this.buildings.farm.owned == 9)
+      }      
+    },
     oneMine: {
       name: 'oneMine',
       displayName: 'All Mine',
@@ -161,24 +179,6 @@ class dataStore {
       earned: false,
       condition: (itemKey) => {
         return (itemKey == 'mine' && this.buildings.mine.owned == 9)
-      }      
-    },
-    oneTower: {
-      name: 'oneTower',
-      displayName: 'Tower Power',
-      description: 'Bought a Tower',
-      earned: false,
-      condition: (itemKey) => {
-        return (itemKey == 'tower')
-      }      
-    },
-    tenTowers: {
-      name: 'tenTowers',
-      displayName: 'Stop and Smell the Towers',
-      description: 'Bought 10 Towers',
-      earned: false,
-      condition: (itemKey) => {
-        return (itemKey == 'tower' && this.buildings.tower.owned == 9)
       }      
     },
   }
