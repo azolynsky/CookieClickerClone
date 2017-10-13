@@ -19,7 +19,6 @@ class Market extends React.Component{
         <Button key={key}
           onPress={() => this.props.buy(this.cost(item.name), item.name)}
           title={buttonTitle}
-          color={item.color}
           disabled={this.props.count < this.cost(item.name)}
         />
       )

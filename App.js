@@ -83,12 +83,12 @@ class App extends React.Component{
     }
 
     return(
-      <View style={{backgroundColor: 'black', flex: 10}}>
+      <View style={{backgroundColor: 'black', flex: 1}}>
         <StatusBar
           barStyle="light-content"
         />
         <Header onPress={this.click.bind(this)} val={Math.floor(Store.count)} pageName={this.state.view} countPerSecond={Store.countPerSecond.toFixed(1)}/>
-        <ScrollView style={{padding: 20}}>
+        <ScrollView contentContainerStyle={{padding:20}} >
           {view}
         </ScrollView>
         <TabBar activeView={this.view} changeView={this.changeView.bind(this)} />
