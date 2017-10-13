@@ -8,6 +8,8 @@ class TabBar extends React.Component{
         flexDirection:'row', 
         justifyContent: 'space-between',
         alignItems: 'center',
+        borderTopWidth: 1,
+        borderTopColor: 'green'
         }}>
         <Button style={{flex:1,}} color="green" title="Market" onPress={() => this.props.changeView('MARKET')} />
         <Button style={{flex:1,}} color="green" title="Achievements" onPress={() => this.props.changeView('ACHIEVEMENTS')} />

@@ -2,35 +2,25 @@ import {observable, action, computed} from 'mobx';
 import {Alert} from 'react-native';
 
 class dataStore {
-  @observable count = 25;
+  @observable count = 10;
 
   addCount(amount){
     this.count += amount
   }
 
   buy(itemKey) {
-    if (itemKey == 'clicker' && this.achievements.oneClicker.earned === false){
-      let achievement = this.achievements.oneClicker;
-      Alert.alert(
-        `Achievement Unlocked \n ${achievement.displayName}`,
-        achievement.description,
-        [
-          {text: 'Sweet!'},
-        ]
-      )
-      this.achievements.oneClicker.earned = true;
-    }
-
-    if (itemKey == 'clicker' && this.buildings.clicker.owned == 9){
-      let achievement = this.achievements.tenClickers;
-      Alert.alert(
-        `Achievement Unlocked \n ${achievement.displayName}`,
-        achievement.description,
-        [
-          {text: 'Sweet!'},
-        ]
-      )
-      this.achievements.tenClickers.earned = true;
+    for (key in this.achievements){
+      let achievement = this.achievements[key];
+      if (!achievement.earned && achievement.condition(itemKey)){
+        Alert.alert(
+          `Achievement Unlocked \n ${achievement.displayName}`,
+          achievement.description,
+          [
+            {text: 'Sweet!'},
+          ]
+        )
+        achievement.earned = true;
+      }
     }
 
     this.buildings[itemKey].owned ++;
@@ -41,9 +31,7 @@ class dataStore {
     for(let key in this.buildings){
       let item = this.buildings[key]
       total += item.owned * item.countPerSecond
-      console.log(key, item.owned, item.countPerSecond)
     };
-    console.log(total)
     return total;
   }
 
@@ -82,13 +70,19 @@ class dataStore {
       name: 'oneClicker',
       displayName: 'One Clicker',
       description: 'Bought a Clicker',
-      earned: false
+      earned: false,
+      condition: (itemKey) => {
+        return (itemKey == 'clicker')
+      }
     },
     tenClickers: {
       name: 'tenClickers',
       displayName: 'Deca-Clicker',
       description: 'Bought 10 Clickers',
-      earned: false
+      earned: false,
+      condition: (itemKey) => {
+        return (itemKey == 'clicker' && this.buildings.clicker.owned == 9)
+      }      
     },
   }
 }

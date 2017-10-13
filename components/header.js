@@ -15,7 +15,6 @@ class Achievements extends React.Component{
       <TouchableHighlight onPress={this.props.onPress}>
       <View style={{backgroundColor:'green', paddingTop: 30}}>
         <Text style={{color:'white', fontSize: 30, textAlign:'center', margin:20, fontWeight:'bold'}}>${Nf.formatNumber(this.props.val)}</Text>
-        {/* <Text style={{fontSize:30, color:'white', fontWeight:'bold'}}>{this.props.pageName}</Text> */}
         <Text style={{color: 'white', textAlign:'right'}}>${this.props.countPerSecond} Per Second</Text>
       </View>
       </TouchableHighlight>

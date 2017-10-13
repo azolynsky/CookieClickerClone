@@ -18,6 +18,7 @@ import Achievements from './components/achievements';
 //other stuff
 import Styles from './styles/styles';
 import Store from './data/dataStore';
+import DataManager from './data/dataManager';
 import CostCalculator from './classes/costCalculator';
 
 @observer
@@ -25,6 +26,7 @@ class App extends React.Component{
   constructor(props){
     super(props);
     this.timerInterval = 50;
+    this.timerCount = 0;
     this.state = {
       view: 'MARKET',
     }
@@ -32,13 +34,25 @@ class App extends React.Component{
 
   componentDidMount(){
     Timer.setInterval(
-      () => { 
+      () => {
         Store.addCount( 
           Store.countPerSecond / 20
         );
+        if (this.timerCount++ >= 100){
+          DataManager.saveData();
+          console.log('saved?');
+          this.timerCount = 0;
+        }
       }, 
       this.timerInterval
     );
+
+    DataManager.loadData()
+  }
+
+  componentWillUnmount(){
+    alert('unmounting');
+    DataManager.saveData();
   }
 
   buy(cost, itemName){
@@ -74,10 +88,10 @@ class App extends React.Component{
           barStyle="light-content"
         />
         <Header onPress={this.click.bind(this)} val={Math.floor(Store.count)} pageName={this.state.view} countPerSecond={Store.countPerSecond.toFixed(1)}/>
-        <ScrollView style={{paddingTop: 20}}>
+        <ScrollView style={{padding: 20}}>
           {view}
         </ScrollView>
-        <TabBar changeView={this.changeView.bind(this)} />
+        <TabBar activeView={this.view} changeView={this.changeView.bind(this)} />
       </View>
     );
   }
