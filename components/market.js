@@ -1,34 +1,34 @@
-import React from 'react';
-import {Button, Text, View} from 'react-native';
-import CostCalculator from '../classes/costCalculator';
-import Nf from '../classes/numberFormatter';
+import React from 'react'
+import {Button, Text, View} from 'react-native'
+import CostCalculator from '../classes/costCalculator'
+import Nf from '../classes/numberFormatter'
+import Store from '../data/dataStore'
+import {observer} from 'mobx-react';
 
+let items = Store.buildings
+
+@observer
 class Market extends React.Component{
-  cost(itemName){
-    let item = this.props.items[itemName];
-    return CostCalculator.getCost(item.owned, item.baseCost);
+  shouldComponentUpdate(nextProps){
+    return true
   }
 
   render(){
-    let items = this.props.items
     let buyButtons = [];
-    for (let key in items){
-      let item = items[key];
-      let buttonTitle = `Buy ${item.displayName} ($${Nf.formatNumber(this.cost(item.name))})`;      
+    for (let item of items){
       buyButtons.push(
-        <Button key={key}
-          onPress={() => this.props.buy(this.cost(item.name), item.name)}
-          title={buttonTitle}
-          disabled={this.props.count < this.cost(item.name)}
+        <Button key={item.name}
+          onPress={item.buy}
+          title={`Buy ${item.displayName} ($${item.cost})`}
+          disabled={!item.buyable}
         />
       )
     }
 
     let itemCounts = [];
-    for(let key in items){
-      let item = items[key];
+    for(let item of items){
       itemCounts.push(
-          <Text key={key} style={{color: 'white'}}>{item.pluralDisplayName} Owned: {item.owned}</Text>                
+          <Text key={item.name} style={{color: 'white'}}>{item.pluralDisplayName} Owned: {item.owned}</Text>                
       )
     }
 

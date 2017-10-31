@@ -7,9 +7,9 @@ import {
   StatusBar,
   ScrollView,
   Button,
-  FlatList,
 } from 'react-native';
 import {observer} from 'mobx-react';
+import slowlog from 'react-native-slowlog';
 //components
 import Header from './components/header';
 import Market from './components/market';
@@ -35,29 +35,18 @@ class App extends React.Component{
   componentDidMount(){
     Timer.setInterval(
       () => {
-        Store.addCount( 
+        Store.addCount(
           Store.countPerSecond / 20
         );
         if (this.timerCount++ >= 100){
           DataManager.saveData();
-          console.log('saved?');
           this.timerCount = 0;
         }
-      }, 
+      },
       this.timerInterval
     );
 
-    DataManager.loadData()
-  }
-
-  componentWillUnmount(){
-    alert('unmounting');
-    DataManager.saveData();
-  }
-
-  buy(cost, itemName){
-    Store.addCount(cost * -1);
-    Store.buy(itemName);
+    //DataManager.loadData()
   }
 
   click(){
@@ -67,8 +56,8 @@ class App extends React.Component{
 
   changeView(viewName){
     this.setState(() => {
-      return { 
-        view: viewName 
+      return {
+        view: viewName
       }
     })
   }
@@ -76,7 +65,7 @@ class App extends React.Component{
   render(){
     let view = {}
     if (this.state.view === 'MARKET'){
-      view = <Market items={Store.buildings} count={Store.count} buy={this.buy}/>      
+      view = <Market/>
     }
     else if (this.state.view === 'ACHIEVEMENTS'){
       view = <Achievements achievements={Store.achievements}/>

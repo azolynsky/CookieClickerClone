@@ -10,14 +10,12 @@ export default class DataManager{
         achievements.push({key:key, earned:achievement.earned});
       }
 
-      console.log(`saved: ${achievements}`);
       let buildings = []
       for (key in Store.buildings){
         let building = Store.buildings[key];
         buildings.push({key:key, owned:building.owned});
       }
 
-      console.log(`saved: ${buildings}`);
       AsyncStorage.setItem('@Achievements', JSON.stringify(achievements));
       AsyncStorage.setItem('@Buildings', JSON.stringify(buildings));
       AsyncStorage.setItem('@Count', Store.count.toString());
